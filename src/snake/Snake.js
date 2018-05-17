@@ -5,23 +5,45 @@ const Snake = (key) => {
 
     let direction = Math.floor(Math.random() * 4);
 
-    let sections = [];
-    sections.push(new Section(250, 250));
-    let size = 5;
+    let chunks = [];
+    let size = 50;
+    let width = 10;
+    let speed = 5;
+    let uTrack = direction;
+    let lastMove = 0;
+
+    let head;
+
+    chunks.push({x: 250, y: 250});
+
+    const grow = () => {
+        size += 50;
+    };
 
     const move = () => {
-        console.log(direction);
-        if (sections.length === size) {
-            sections.pop();
+        if ((chunks.length * speed) >= size) {
+            chunks.shift();
         }
-        let head = sections[0];
-        let dx = head.x;
-        let dy = head.y;
-        if (direction === 0) dy -= head.size;
-        if (direction === 1) dx += head.size;
-        if (direction === 2) dy += head.size;
-        if (direction === 3) dx -= head.size;
-        sections.unshift(new Section(dx, dy));
+        let dx = 0;
+        let dy = 0;
+        if (direction === 0 || direction === 2) {
+            dy += (direction === 2 ? speed : -speed);
+        } else {
+            dx += (direction === 1 ? speed : -speed);
+        }
+        let lastChunk = chunks[chunks.length-1];
+        head = {x: lastChunk.x + dx, y: lastChunk.y + dy};
+        chunks.push(head);
+    };
+
+    const collision = (cx, cy, cs) => {
+        let
+            px = head.x - (width / 2),
+            py = head.y - (width / 2);
+        return (
+            px < cx + cs && px + width > cx &&
+            py < cy + cs && py + width > cs
+        );
     };
 
     const update = () => {
@@ -41,14 +63,24 @@ const Snake = (key) => {
     };
 
     const render = (screen) => {
-        sections.forEach(section => {
-            section.render(screen);
-        })
+        screen.ctx.beginPath();
+        screen.ctx.lineCap = "round";
+        screen.ctx.lineJoin = "round";
+        screen.ctx.lineWidth = width;
+        screen.ctx.strokeStyle = "red";
+        let start = chunks[0];
+        screen.ctx.moveTo(start.x, start.y);
+        for (let i = 1; i < chunks.length; i++) {
+            screen.ctx.lineTo(chunks[i].x, chunks[i].y);
+        }
+        screen.ctx.stroke();
     };
 
     return {
         update,
-        render
+        render,
+        collision,
+        grow
     }
 };
 

@@ -1,18 +1,17 @@
 
-const Section = (x, y) => {
+const Food = (x, y, size) => {
 
     const render = (screen) => {
-        screen.ctx.fillStyle = color;
+        screen.ctx.fillStyle = "green";
         screen.ctx.fillRect(x, y, size, size);
     };
 
     return {
         x,
         y,
-        update,
-        render,
+        size,
+        render
     }
-
 };
 
-export default Section;
+export default Food;

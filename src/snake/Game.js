@@ -15,8 +15,10 @@ const Game = () => {
     let player = new Snake(key);
     let level = new Level(500, 500);
 
+    level.addPlayer(player);
+
     let lastTime;
-    let tickRate = 10;
+    let tickRate = 30;
     let tick = 1000 / tickRate;
     let timer;
     let delta;
@@ -26,6 +28,7 @@ const Game = () => {
     const update = () => {
         key.update();
         player.update();
+        level.update();
     };
 
     const render = () => {

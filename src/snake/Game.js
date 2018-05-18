@@ -8,7 +8,7 @@ const Game = () => {
 
     let title = "Snake Clone";
 
-    let paused = false;
+    let paused = true;
 
     let screen = new Screen(500, 500);
     let key = new Keyboard;
@@ -27,14 +27,19 @@ const Game = () => {
 
     const update = () => {
         key.update();
-        player.update();
-        level.update();
+        if (paused && key.input.space) paused = false;
+        if (!paused) {
+            player.update();
+            level.update();
+        }
     };
 
     const render = () => {
-        screen.clear();
-        level.render(screen);
-        player.render(screen);
+        if (!paused) {
+            screen.clear();
+            level.render(screen);
+            player.render(screen);
+        }
     };
 
     const run = () => {

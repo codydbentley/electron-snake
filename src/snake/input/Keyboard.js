@@ -15,7 +15,8 @@ const Keyboard = () => {
         up: false,
         down: false,
         left: false,
-        right: false
+        right: false,
+        space: false
     };
 
     const update = () => {
@@ -23,6 +24,7 @@ const Keyboard = () => {
         input.down = Boolean(keys["s"] || keys["ArrowDown"]);
         input.left = Boolean(keys["a"] || keys["ArrowLeft"]);
         input.right = Boolean(keys["d"] || keys["ArrowRight"]);
+        input.space = Boolean(keys[" "]);
     };
 
     const keyDown = (key) => {

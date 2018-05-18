@@ -41,8 +41,10 @@ const Snake = (key) => {
             px = head.x - (width / 2),
             py = head.y - (width / 2);
         return (
-            px < cx + cs && px + width > cx &&
-            py < cy + cs && py + width > cs
+            px < cx + cs &&
+            px + width > cx &&
+            py < cy + cs &&
+            py + width > cy
         );
     };
 
